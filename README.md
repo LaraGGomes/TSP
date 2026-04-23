@@ -51,7 +51,7 @@ Então, pra compilar tudo junto
 
 Compilar o programa: 
 
-    g++ -O3 main.cpp leitor-instancias/scr/Data.cpp -o programa.exe
+    g++ -O3 main.cpp leitor-instancias/src/Data.cpp -o programa.exe
 
 Rodar uma instância:
 

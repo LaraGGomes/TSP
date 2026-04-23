@@ -9,9 +9,11 @@ int main(int argc, char** argv) {
 
     data.read();
 
-    double custo = data.getDistance(1, 2); 
+    double cost = data.getDistance(1, 2); 
     
-    cout << "Matriz carregada! Custo entre cidade 1 e 2: " << custo << std::endl;
+    cout << "Matriz carregada! Custo entre cidade 1 e 2: " << cost << std::endl;
+
+    cout << "Dimensao: " << data.getDimension();    // dimensao retorna quantidade de cidades
 
     return 0;
 }
