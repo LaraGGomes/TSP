@@ -77,7 +77,7 @@ vector<int> nosRestantes(Data& data, vector<int> sequencia) {
 }
 
 void ordenarEmOrdemCrescente(vector<InsertionInfo>& custoInsercao) {
-    // fiz por ondem crescente de custo, creio seja disso mesmo
+
     for (int i = 0; i < custoInsercao.size(); i++) {
 
         for (int j = i+1; j < custoInsercao.size(); j++) {
@@ -93,7 +93,7 @@ void ordenarEmOrdemCrescente(vector<InsertionInfo>& custoInsercao) {
 }
 
 // aqui eu to recebendo como parâmetro o insertionInfo completo do nó selecionado porque eu vou precisar saber
-// em qual posição eu insiro o nó na solução e do custo final
+// em qual posição eu insiro o nó na solução
 void inserirNaSolucao(Solucao& s, InsertionInfo selecionado) {
     // vertice inicial onde será posicionado o novo nó 
     int vertice = selecionado.arestaRemovida;
@@ -103,9 +103,6 @@ void inserirNaSolucao(Solucao& s, InsertionInfo selecionado) {
 
     // inserção do nó
     s.sequence.insert(pos+1, selecionado.noInserido);
-
-    // mudança do custo da solução
-    s.cost = selecionado.custo;
 }
 
 Solucao Construcao(Data& data) {
