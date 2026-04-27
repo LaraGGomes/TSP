@@ -31,6 +31,8 @@ aqui no notebook eu usei o seguinte código:
 
 Pra compilar o tsp:
 
+    cd leitor-instancias
+    make
     g++ src\*.cpp -O3 -o tsp.exe
 
 Então, pra compilar tudo junto
