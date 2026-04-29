@@ -1,6 +1,6 @@
 #include "BuscaLocal.h"
 
-bool bestImprovementSwap(Data& data, Solucao *s) {  // ta dando loop
+bool bestImprovementSwap(Data& data, Solucao *s) {
     double bestDelta = 0;
     int best_i, best_j;
 
@@ -42,26 +42,9 @@ bool bestImprovementSwap(Data& data, Solucao *s) {  // ta dando loop
     return false;
 }
 
-// ex 1 2 3 4 5 6 1
-// 1-2: 3-4, 4-5, 5-6
-// 2-3: 4-5, 5-6, 6-1
-// 3-4: 5-6, 6-1, 
-// 4-5: 6-1
-// 5-6
-
-// 1 2 3 4 5 6 1
-// 1-2, 4-5
-// - d(1,2) + d(1,4) - d(4,5) + d(2,5)
-// 1 4 3 2 5 6 1
-
-// 1 2 3 4 5 6 1
-// 2-3, 6-1; i = 1, j = 5
-// 1 2 6 4 5 3 1
-// 1 2 6 5 4 3 1
-
-// seleciona dois vértices não adjacentes, remove a prox aresta do primeiro e a anterior do segundo,
+// seleciona dois vértices não adjacentes, remove as arestas,
 // inverter todos os segmentos entre elas, e colocar arestas novas
-bool bestImprovement2Opt(Data &data, Solucao *s) {  // aparentemente ok
+bool bestImprovement2Opt(Data &data, Solucao *s) {
     double bestDelta = 0;
     int best_i, best_j;
 
@@ -100,63 +83,13 @@ bool bestImprovement2Opt(Data &data, Solucao *s) {  // aparentemente ok
     return false;
 }
 
-// 1 2 3 4 5 6 1
-// i= 2 j= 4
-// 1 2 4 5 6 1
-// 1 2 4 5 3 6 1
-// -d(2,3) + d(2,4) - d(5,6) + d(5,3) -d(3,4) + d(3,6)
-// 1 2 4 5 6 1
-// 1 2 3 5 6 3 1
-
-// 1 2 3 4 1
-// 1 3 4 2 1
-
-// 1 2 3 4 1
-
-// 1 3 2 4 1
-
-// i = 1 j = 3
-// - d(1, 3) - d(3, 2) + d(1,2) + d(4,3) +d(3,1) - d(4,1)
-// 1 3 2 4 1
-// 1 3 2 3 4 1
-// 1 2 3 4 1
-
-// pegar dois vértices juntos e reinserir
-// 1 2 3 4 5 6 1
-// i= 1, j = 4
-// - d(1,2) - d(3,4) + d(1,4) - d(4,5) + d(4,2) + d(3,5)
-// 1 4 2 3 5 6 1
-// 1 4 5 2 3 6 1
-// 1 4 5 6 2 3 1
-
-// 1 2 3 4 5 6 1
-// 1 2 3 4 3 5 6 1
-// 1 2 3 4 2 3 5 6 1
-// 1 3 4 2 3 5 6 1
-// 1 4 2 3 5 6 1
-
-
-// 1 2 3 4 5 6 1
-// 1 5 2 3 4 6 1
-// 1 5 6 2 3 4 1
-// i = 1;
-
-// 1 2 3 4 5 6 1
-// 1 2 3 4 5 4 6 1
-// 1 2 3 4 5 3 4 6 1
-// 1 2 3 4 5 2 3 4 6 1
-// 1 3 4 5 2 3 4 6 1
-// 1 4 5 2 3 4 6 1
-// 1 5 2 3 4 6 1
-
-
 // seleciona x vértices adjacentes, remove e então reensere em uma nova posição
 bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
     double bestDelta;
     int best_i, best_j;
 
     switch (tipo) {
-    case 1: // reinsertion (checar cálculo)
+    case 1: // reinsertion
         
         for(int i = 1; i < s->sequence.size() - 1; i++) {
             int vi = s->sequence[i];
@@ -189,7 +122,7 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
 
         break;
     
-    case 2: // or-opt-2 (checar cálculo)
+    case 2: // or-opt-2
 
         for(int i = 1; i < s->sequence.size() - 1; i++) {
             int vi = s->sequence[i];
@@ -225,7 +158,7 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
         }
 
         break;
-    case 3: // or-opt-3 (checar cálculo)
+    case 3: // or-opt-3
 
         for(int i = 1; i < s->sequence.size() - 1; i++) {
             int vi = s->sequence[i];
@@ -273,7 +206,7 @@ void BuscaLocal(Data& data, Solucao *s) {
     bool improved = false;
 
     while(NL.empty() == false) {
-        // aleatorizar a operação a ser feita
+
         int n = rand()% NL.size();
         switch (NL[n]) {
         case 1:
@@ -295,7 +228,7 @@ void BuscaLocal(Data& data, Solucao *s) {
 
         if(improved) 
             NL = {1, 2, 3, 4, 5};
-        else    // vai realizar novas operações enquanto não houver melhora
+        else
             NL.erase(NL.begin() + n);
     }
 }

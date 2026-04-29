@@ -1,8 +1,8 @@
 #ifndef SOLUCAO_H
 #define SOLUCAO_H
 
-#include <iostream>     // cout
-#include <vector>       // vetor 
+#include <iostream>
+#include <vector>
 #include "leitor-instancias/src/Data.h"
 
 using namespace std;
@@ -12,7 +12,6 @@ typedef struct Solucao {
     double cost;
 } Solucao;
 
-// protótipos das funções de solução
 void exibirSolucao(Solucao *s);
 void calcularCusto(Data& data, Solucao *s);
 

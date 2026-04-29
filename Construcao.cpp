@@ -3,7 +3,7 @@
 // vai receber um subtour aleatório, e CL são os vértices restantes não inclusos no subtour
 vector<InsertionInfo> calcularCustoInsercao(Data& data, Solucao& s, vector<int>& CL) {
 
-    vector<InsertionInfo> custoInsercao((s.sequence.size() - 1) * CL.size());   // delimitando tamanho do vetor
+    vector<InsertionInfo> custoInsercao((s.sequence.size() - 1) * CL.size());
     int l = 0;
 
     for (int a = 0; a < s.sequence.size() - 1; a++) {

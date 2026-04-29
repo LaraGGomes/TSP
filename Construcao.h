@@ -2,8 +2,8 @@
 #define CONSTRUCAO_H
 
 #include "Solucao.h"
-#include <cstdlib>      // rand
-#include <algorithm>    // find
+#include <cstdlib>
+#include <algorithm>
 
 using namespace std;
 
@@ -13,7 +13,6 @@ typedef struct InsertionInfo {
     double custo;
 }InsertionInfo;
 
-// protótipo das funções necessárias
 Solucao Construcao(Data& data);
 vector<InsertionInfo> calcularCustoInsercao(Data& data, Solucao& s, vector<int>& CL);
 vector<int> escolher3NosAleatorios(Data& data);

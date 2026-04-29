@@ -1,26 +1,5 @@
 #include "Pertubacao.h"
 
-// Passos:
-// - s' <- s
-// - escolher aleatoriamente dois segmentos não sobrepostos de s' de tamanhos entre 2 e |V|/10
-// - trocar a posição dos elementos
-// - retornar s'
-
-// 1 2 3 4 5 6 7 8 9 10 11 12 13 14 1
-// s1_ant = 2, pos1 = 2
-// s2_ant = 9, pos2 = 9
-// insert s1 no find(s2_ant)+1
-// 1 2 3 4 5 6 7 8 9 3 4 10 11 12 13 14 1
-// find(s1_ant) + 1
-// remove s1 do pos1
-// 1 2 5 6 7 8 9 3 4 10 11 12 13 14 1
-// remove s2 do pos2
-// 1 2 5 6 7 8 9 3 4 12 13 14 1
-// insert s2 no find()
-// 1 2 10 11 5 6 7 8 9 3 4 12 13 14 1
-
-// 1 6 7 2 3 4 5 8 9 10 11 12 13 14 1
-
 Solucao Pertubacao(Data& data, Solucao s) {
     Solucao novaS;
     bool conflito = true;
