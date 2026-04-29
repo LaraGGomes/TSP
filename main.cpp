@@ -1,3 +1,4 @@
+#include "Framework.h"
 #include "leitor-instancias/src/Data.h"
 #include <iostream>
 
@@ -9,11 +10,17 @@ int main(int argc, char** argv) {
 
     data.read();
 
-    double cost = data.getDistance(1, 2); 
-    
-    cout << "Matriz carregada! Custo entre cidade 1 e 2: " << cost << std::endl;
+    int maxIterILS;
+    int V = data.getDimension();
 
-    cout << "Dimensao: " << data.getDimension();    // dimensao retorna quantidade de cidades
+    if (V >= 150)
+        maxIterILS = V/2;
+    else 
+        maxIterILS = V;
+
+    Solucao melhorSolucao = ILS(data, 50, maxIterILS);
+
+    cout << "\nCusto da melhor solucao encontrada: " << melhorSolucao.cost << endl;
 
     return 0;
 }
