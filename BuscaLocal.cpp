@@ -1,6 +1,6 @@
 #include "BuscaLocal.h"
 
-bool bestImprovementSwap(Data& data, Solucao *s) {
+bool bestImprovementSwap(Data& data, Solucao *s) {  // ta dando loop
     double bestDelta = 0;
     int best_i, best_j;
 
@@ -14,9 +14,16 @@ bool bestImprovementSwap(Data& data, Solucao *s) {
             int vj_prox = s->sequence[j+1];
             int vj_ante = s->sequence[j-1];
 
-            double delta = -data.d(vi_ante, vi) - data.d(vi, vi_prox) + data.d(vi_ante, vj)
-                            + data.d(vj, vi_prox) - data.d(vj_ante, vj) - data.d(vj, vj_prox)
-                            + data.d(vj_ante, vi) + data.d(vi, vj_prox);
+            double delta;
+            // fórmula é diferente pra vértices adjacentes
+            if (j == i + 1) {
+                delta = - data.d(vi_ante, vi) + data.d(vi, vj_prox) - data.d(vj, vj_prox) + data.d(vi_ante, vj);
+            }
+            else {
+                delta = -data.d(vi_ante, vi) - data.d(vi, vi_prox) + data.d(vi_ante, vj)
+                        + data.d(vj, vi_prox) - data.d(vj_ante, vj) - data.d(vj, vj_prox)
+                        + data.d(vj_ante, vi) + data.d(vi, vj_prox);
+            }
 
             if(delta < bestDelta) {
                 bestDelta = delta;
@@ -54,7 +61,7 @@ bool bestImprovementSwap(Data& data, Solucao *s) {
 
 // seleciona dois vértices não adjacentes, remove a prox aresta do primeiro e a anterior do segundo,
 // inverter todos os segmentos entre elas, e colocar arestas novas
-bool bestImprovement2Opt(Data &data, Solucao *s) {
+bool bestImprovement2Opt(Data &data, Solucao *s) {  // aparentemente ok
     double bestDelta = 0;
     int best_i, best_j;
 
@@ -80,11 +87,9 @@ bool bestImprovement2Opt(Data &data, Solucao *s) {
     if (bestDelta < 0) {
         swap(s->sequence[best_i+1], s->sequence[best_j]);
 
-        // tentativa de inversão
-        for (int i = best_i+2; i < best_j; i++) {
-            for (int j = best_j - 1; j > i; j--) {
-                swap(s->sequence[i], s->sequence[j]);
-            }
+        // inversão do segmento entre as arestas
+        for (int i = best_i+2, j = best_j - 1; i < best_j && j > i; i++, j--) {
+            swap(s->sequence[i], s->sequence[j]);
         }
 
         s->cost += bestDelta;
@@ -151,14 +156,14 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
     int best_i, best_j;
 
     switch (tipo) {
-    case 1: // reinsertion
+    case 1: // reinsertion (checar cálculo)
         
         for(int i = 1; i < s->sequence.size() - 1; i++) {
             int vi = s->sequence[i];
             int vi_prox = s->sequence[i+1];
             int vi_ante = s->sequence[i-1];
 
-            for(int j = i + 2; j < s->sequence.size(); j++) {
+            for(int j = i + 2; j < s->sequence.size() - 1; j++) {
                 int vj = s->sequence[j];
                 int vj_ante = s->sequence[j-1];
 
@@ -182,11 +187,9 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
             return true;
         }
 
-        return false;
-
         break;
     
-    case 2: // or-opt-2
+    case 2: // or-opt-2 (checar cálculo)
 
         for(int i = 1; i < s->sequence.size() - 1; i++) {
             int vi = s->sequence[i];
@@ -194,7 +197,7 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
             int vi_prox = s->sequence[i+2];
             int vi_ante = s->sequence[i-1];
 
-            for(int j = i + 3; j < s->sequence.size(); j++) {
+            for(int j = i + 3; j < s->sequence.size() - 1; j++) {
                 int vj = s->sequence[j];
                 int vj_ante = s->sequence[j-1];
 
@@ -221,11 +224,8 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
             return true;
         }
 
-        return false;
-
-
         break;
-    case 3: // or-opt-3
+    case 3: // or-opt-3 (checar cálculo)
 
         for(int i = 1; i < s->sequence.size() - 1; i++) {
             int vi = s->sequence[i];
@@ -233,7 +233,7 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
             int vi_prox = s->sequence[i+3];
             int vi_ante = s->sequence[i-1];
 
-            for(int j = i + 4; j < s->sequence.size(); j++) {
+            for(int j = i + 4; j < s->sequence.size() - 1; j++) {
                 int vj = s->sequence[j];
                 int vj_ante = s->sequence[j-1];
 
@@ -260,12 +260,12 @@ bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
             s->cost += bestDelta;
 
             return true;
-        }
-
-        return false;    
+        }  
 
         break;
     }
+
+    return false;  
 }
 
 void BuscaLocal(Data& data, Solucao *s) {
