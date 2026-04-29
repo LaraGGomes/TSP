@@ -22,39 +22,12 @@ biblioteca conjunta com quaisquer outras funções necessárias.
 
 Na main vão ter o maxIter e maxIterIls, que serão parâmetros na chamada da função SolutionILS().
 
-## Dependências
-
-Por conta do leitor de instâncias, preciso instalar o **make** na minha máquina,
-aqui no notebook eu usei o seguinte código:
-
-    winget install ezwinports.make
-
-Pra compilar o tsp:
-
-    cd leitor-instancias
-    make
-    g++ src\*.cpp -O3 -o tsp.exe
-
-Então, pra compilar tudo junto
-
-    g++ -O3 *.cpp leitor-instancias/src/*.cpp -o tsp.exe
-
-## Estrutura do projeto
-
-    /TSP
-    ├──main.cpp
-    ├──/etapas
-    ├──/leitor-instancias
-        ├──/instances
-        ├──/src
-            ├──Data.h
-
 ## Rodar o código com uma instância
 
 Compilar o programa: 
 
-    g++ -O3 main.cpp leitor-instancias/src/Data.cpp -o tsp.exe
+    g++ -O3 -std=c++17 *.cpp leitor-instancias/src/Data.cpp -o programa.exe
 
 Rodar uma instância:
 
-    .\programa.exe leitor-instancias/instances/nomedainstancia.tsp
+    ./programa.exe leitor-instancias/instances/nomedainstancia.tsp
