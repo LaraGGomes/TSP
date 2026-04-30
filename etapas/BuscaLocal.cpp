@@ -85,117 +85,44 @@ bool bestImprovement2Opt(Data &data, Solucao *s) {
 
 // seleciona x vértices adjacentes, remove e então reensere em uma nova posição
 bool bestImprovementOrOpt(Data &data, Solucao *s, int tipo) {
-    double bestDelta;
+    double bestDelta = 0;
     int best_i, best_j;
 
-    switch (tipo) {
-    case 1: // reinsertion
-        
-        for(int i = 1; i < s->sequence.size() - 1; i++) {
-            int vi = s->sequence[i];
-            int vi_prox = s->sequence[i+1];
-            int vi_ante = s->sequence[i-1];
+    for(int i = 1; i <= s->sequence.size() - 1 - tipo; i++) {
+        int vi = s->sequence[i];
+        int vi_prox = s->sequence[i+tipo];
+        int vi_ante = s->sequence[i-1];
+        int vi_last = s->sequence[i+tipo-1];
 
-            for(int j = i + 2; j < s->sequence.size() - 1; j++) {
-                int vj = s->sequence[j];
-                int vj_ante = s->sequence[j-1];
+        for(int j = 1; j < s->sequence.size() - 1; j++) {
+            if (j - i <= tipo + 1 && j - i >= 0) continue;
 
-                double delta = - data.d(vi_ante, vi) - data.d(vi, vi_prox) + data.d(vi_ante, vi_prox)
-                                + data.d(vj_ante, vi) + data.d(vi, vj) - data.d(vj_ante, vj);
+            int vj = s->sequence[j];
+            int vj_ante = s->sequence[j-1];
 
-                if(delta < bestDelta) {
-                    bestDelta = delta;
-                    best_i = i;
-                    best_j = j;
-                }
+            double delta = -data.d(vi_ante, vi) + data.d(vi_ante, vi_prox) - data.d(vj_ante, vj) + data.d(vj_ante, vi) - data.d(vi_last, vi_prox) + data.d(vi_last, vj);
+
+            if(delta < bestDelta) {
+                bestDelta = delta;
+                best_i = i;
+                best_j = j;
             }
         }
+    }
 
-        if (bestDelta < 0) {
-            s->sequence.insert(s->sequence.begin() + best_j, s->sequence[best_i]);
-            s->sequence.erase(s->sequence.begin() + best_i);
+    if (bestDelta < 0) {
+        vector<int> segmento(s->sequence.begin() + best_i, s->sequence.begin() + best_i + tipo);
 
-            s->cost += bestDelta;
+        s->sequence.erase(s->sequence.begin() + best_i, s->sequence.begin() + best_i + tipo);
 
-            return true;
-        }
+        if(best_i < best_j) 
+            s->sequence.insert(s->sequence.begin() + best_j - tipo, segmento.begin(), segmento.end());
+        else 
+            s->sequence.insert(s->sequence.begin() + best_j, segmento.begin(), segmento.end());
 
-        break;
-    
-    case 2: // or-opt-2
+        s->cost += bestDelta;
 
-        for(int i = 1; i < s->sequence.size() - 1; i++) {
-            int vi = s->sequence[i];
-            int vi2 = s->sequence[i+1];
-            int vi_prox = s->sequence[i+2];
-            int vi_ante = s->sequence[i-1];
-
-            for(int j = i + 3; j < s->sequence.size() - 1; j++) {
-                int vj = s->sequence[j];
-                int vj_ante = s->sequence[j-1];
-
-                double delta = - data.d(vi_ante, vi) - data.d(vi2, vi_prox) + data.d(vi_ante, vi_prox)
-                                - data.d(vj_ante, vj) + data.d(vj_ante, vi) + data.d(vi2, vj);
-
-                if (delta < bestDelta) {
-                    bestDelta = delta;
-                    best_i = i;
-                    best_j = j;
-                }
-            }
-        }
-
-        if (bestDelta < 0) {
-            s->sequence.insert(s->sequence.begin() + best_j, s->sequence[best_i+1]);
-            s->sequence.insert(s->sequence.begin() + best_j, s->sequence[best_i]);
-
-            s->sequence.erase(s->sequence.begin() + best_i);
-            s->sequence.erase(s->sequence.begin() + best_i);
-
-            s->cost += bestDelta;
-
-            return true;
-        }
-
-        break;
-    case 3: // or-opt-3
-
-        for(int i = 1; i < s->sequence.size() - 1; i++) {
-            int vi = s->sequence[i];
-            int vi3 = s->sequence[i+2];
-            int vi_prox = s->sequence[i+3];
-            int vi_ante = s->sequence[i-1];
-
-            for(int j = i + 4; j < s->sequence.size() - 1; j++) {
-                int vj = s->sequence[j];
-                int vj_ante = s->sequence[j-1];
-
-                double delta = - data.d(vi_ante, vi) - data.d(vi3, vi_prox) + data.d(vi_ante, vi_prox)
-                                - data.d(vj_ante, vj) + data.d(vj_ante, vi) + data.d(vi3, vj);
-
-                if (delta < bestDelta) {
-                    bestDelta = delta;
-                    best_i = i;
-                    best_j = j;
-                }
-            }
-        }
-
-        if (bestDelta < 0) {
-            s->sequence.insert(s->sequence.begin() + best_j, s->sequence[best_i+2]);
-            s->sequence.insert(s->sequence.begin() + best_j, s->sequence[best_i+1]);
-            s->sequence.insert(s->sequence.begin() + best_j, s->sequence[best_i]);
-
-            s->sequence.erase(s->sequence.begin() + best_i);
-            s->sequence.erase(s->sequence.begin() + best_i);
-            s->sequence.erase(s->sequence.begin() + best_i);
-
-            s->cost += bestDelta;
-
-            return true;
-        }  
-
-        break;
+        return true;
     }
 
     return false;  
