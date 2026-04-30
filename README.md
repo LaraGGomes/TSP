@@ -26,7 +26,7 @@ Na main vão ter o maxIter e maxIterIls, que serão parâmetros na chamada da fu
 
 Compilar o programa: 
 
-    g++ -O3 -std=c++17 *.cpp leitor-instancias/src/Data.cpp -o programa.exe
+    g++ -O3 -std=c++17 *.cpp etapas/*.cpp leitor-instancias/src/Data.cpp -o programa.exe
 
 Rodar uma instância:
 
