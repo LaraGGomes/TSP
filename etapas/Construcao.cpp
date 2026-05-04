@@ -62,14 +62,9 @@ vector<int> nosRestantes(Data& data, vector<int> sequencia) {
 
 void ordenarEmOrdemCrescente(vector<InsertionInfo>& custoInsercao) {
 
-    for (int i = 0; i < custoInsercao.size(); i++) {
-
-        for (int j = i+1; j < custoInsercao.size(); j++) {
-
-            if (custoInsercao[i].custo > custoInsercao[j].custo)
-                swap(custoInsercao[i], custoInsercao[j]);
-        }
-    }
+    sort(custoInsercao.begin(), custoInsercao.end(), [](const InsertionInfo& a, const InsertionInfo& b) { 
+        return a.custo < b.custo;
+    });
 }
 
 // aqui eu to recebendo como parâmetro o insertionInfo completo do nó selecionado porque eu vou precisar saber

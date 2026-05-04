@@ -6,8 +6,6 @@ Solucao Pertubacao(Data& data, Solucao& s) {
     int i1, i2;         // intervalos dos segmentos
     int pos1, pos2;     // posição inicial de cada intervalo
     int max = ceil((s.sequence.size() - 1) / 10.0);
-    
-    srand(time(NULL));
 
     if (max <= 2)
         i1 = i2 = 2;

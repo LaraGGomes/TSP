@@ -12,6 +12,8 @@ int main(int argc, char** argv) {
 
     int maxIterILS;
     int V = data.getDimension();
+    
+    srand(time(NULL));
 
     if (V >= 150)
         maxIterILS = V/2;
